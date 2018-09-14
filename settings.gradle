@@ -1,0 +1,4 @@
+include 'cordagen-main'
+include 'contracts-states'
+include 'commons'
+include 'web-commons'

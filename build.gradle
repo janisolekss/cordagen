@@ -1,0 +1,82 @@
+buildscript {
+    ext.corda_release_group = 'net.corda'
+    ext.corda_release_version = '3.2-corda'
+    ext.corda_gradle_plugins_version = '3.1.0'
+    ext.kotlin_version = '1.2.60'
+    ext.junit_version = '4.12'
+    ext.quasar_version = '0.7.9'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
+        classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
+        classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'net.corda.plugins.cordapp'
+apply plugin: 'net.corda.plugins.cordformation'
+apply plugin: 'net.corda.plugins.quasar-utils'
+apply from: 'commons.gradle'
+
+dependencies {
+    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
+
+    cordapp project(':contracts-states')
+    cordapp project(':commons')
+    // {{ROLE_CORDAPP}}
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        languageVersion = "1.2"
+        apiVersion = "1.2"
+        jvmTarget = "1.8"
+        javaParameters = true   // Useful for reflection.
+    }
+}
+
+task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
+    directory "./build/nodes"
+    node {
+        name "O=Notary,L=London,C=GB"
+        notary = [validating: true]
+        p2pPort 9997
+        rpcSettings {
+            address("localhost:9998")
+            adminAddress("localhost:9999")
+        }
+        cordapps = [
+                "$project.group:contracts-states:$project.version",
+                "$project.group:commons:$project.version",
+        ]
+    }
+    // {{ROLE_NODE}}
+}
+
+task deployWebapps(type: Copy, dependsOn: [
+    // {{web_app}}
+]) {
+    ext.webappDir = file("build/webapps")
+    // this should be for each webmodule
+    // {{web_copy}}}}}
+    from("src/main/resources/scripts/") {
+        filter {
+            it.replace('#DIR#', ext.webappDir.getAbsolutePath())
+        }
+    }
+    into ext.webappDir
+}

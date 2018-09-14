@@ -1,0 +1,16 @@
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    // Corda integration dependencies
+    cordaCompile "$corda_release_group:corda-core:$corda_release_version"
+    cordaCompile "$corda_release_group:corda-finance:$corda_release_version"
+    cordaCompile "$corda_release_group:corda-confidential-identities:$corda_release_version"
+    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile "junit:junit:$junit_version"
+    testCompile "$corda_release_group:corda-test-common:$corda_release_version"
+    testCompile "$corda_release_group:corda-test-utils:$corda_release_version"
+    testCompile "$corda_release_group:corda-node:$corda_release_version"
+    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+}

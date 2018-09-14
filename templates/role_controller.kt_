@@ -1,0 +1,19 @@
+package com.cordagen.web.controllers
+
+import com.cordagen.web.NodeRPCConnection
+import org.slf4j.LoggerFactory
+import org.springframework.web.bind.annotation.*
+
+/**
+ *  A controller for interacting with the node via RPC.
+ */
+@RestController
+@RequestMapping("/api/v1") // The paths for GET and POST requests are relative to this base path.
+private class SellerController(
+        private val rpc: NodeRPCConnection) {
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(RestController::class.java)
+    }
+    // TODO put specific role controller REST api implemetnations calling something
+}
