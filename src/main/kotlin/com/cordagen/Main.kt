@@ -71,7 +71,9 @@ fun skip(path: String) = (
                 path.startsWith(".${File.separatorChar}templates") ||
                 path.startsWith(".${File.separatorChar}.gradle") ||
                 path.startsWith(".${File.separatorChar}build") ||
-                path.startsWith(".${File.separatorChar}src")
+                path.startsWith(".${File.separatorChar}src") ||
+                path.startsWith(".${File.separatorChar}.git") ||
+                path.contains("build${File.separatorChar}")
         )
 
 

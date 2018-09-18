@@ -1,7 +1,21 @@
 
 # Cordagen
 
-Small utility "project/tool" to quickly wrap up role based Corda projects. It by itself is template project with self-modifying capabilities. Import it into IntelliJ as gradle project and then you can run it using arguments.
+Small utility "project/tool" to quickly wrap up role based Corda projects. It by itself is template project with self-modifying capabilities. Import it into IntelliJ as gradle project and then you can run it using arguments. Or it is possible to run from command line.
+
+```
+gradlew.bat build
+```
+
+To rename default cordagen package into your newname packages and files use this. Remember that root directory have to be renamed manually.
+```
+java -cp build/libs/cordagen-0.1.jar com.cordagen.MainKt rename cordagen newname
+```
+
+To add new corda role run this one. First argument is rolename and second argument is the name of your project (most likely one you renamed to by previous command)
+```
+java -cp build/libs/cordagen-0.1.jar com.cordagen.MainKt role seller newname
+```
 
 
 Main class is MainKt which can do two things
