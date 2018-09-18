@@ -3,7 +3,6 @@ buildscript {
     ext.spring_boot_version = '1.5.10.RELEASE'
 
     repositories {
-        mavenLocal()
         mavenCentral()
         jcenter()
     }
@@ -15,7 +14,6 @@ buildscript {
 }
 
 repositories {
-    mavenLocal()
     jcenter()
     mavenCentral()
     maven { url 'https://dl.bintray.com/kotlin/exposed' }
