@@ -188,7 +188,7 @@ fun makeWebModule(role: String, project: String) {
     val webDirectory = makeWebDirecotry(role, project)
     makeWebProperties(role)
     makeRoleController(role, project, webDirectory)
-    makeWebGradleContent(role)
+    makeWebGradleContent(role, project)
     updateWebMainGradle(role)
     updateWebScripts(role)
     addWebModuleToSettings(role)
@@ -232,10 +232,11 @@ fun makeRoleController(role: String, project: String, webDirectory: File) {
     File(webDirectory, "${role.capitalize()}Controller.kt").writeText(newContent)
 }
 
-fun makeWebGradleContent(role: String) {
+fun makeWebGradleContent(role: String, project: String) {
     println("Writing web module gradle file")
     val webGradle = File("./templates/role_web_build.gradle_").readText()
     val newWebGradleContent = webGradle
+            .replace("cordagen", project)
             .replace("{{role}}", role)
     File("./web-$role/build.gradle").writeText(newWebGradleContent)
 }
