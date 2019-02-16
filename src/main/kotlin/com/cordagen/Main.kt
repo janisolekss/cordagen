@@ -97,37 +97,37 @@ fun transformFiles(f: File, from: String, to: String) {
 }
 
 fun doRoleGen(role: String, project: String) {
-    val roleDirectory = makeModuleDirecotry(role)
-    makeModuleSourceAndTestDiretory(role, project, roleDirectory)
+    val roleDirectory = makeModuleDirectory(role)
+    makeModuleSourceAndTestDirectory(role, project, roleDirectory)
     copyGradle(roleDirectory)
     appendRoleToSettings(role)
     makeNode(role)
     makeWebModule(role, project)
 }
 
-fun makeModuleDirecotry(role: String): File {
+fun makeModuleDirectory(role: String): File {
     val file = File("./$role")
-    println("Making module direcotry $role")
+    println("Making module directory $role")
     if (file.exists()) {
-        System.out.println("Direcotry ./$role already exist")
+        System.out.println("Directory ./$role already exist")
         System.exit(-2)
     }
     if (!file.mkdir()) {
-        System.out.println("Can't create direotry ./$role")
+        System.out.println("Can't create directory ./$role")
         System.exit(-3)
     }
     return file
 }
 
-fun makeModuleSourceAndTestDiretory(role: String, project: String, file: File) {
-    println("Creating module source direcotry")
+fun makeModuleSourceAndTestDirectory(role: String, project: String, file: File) {
+    println("Creating module source directory")
     val src = File(file, "src/main/kotlin/com/$project/$role/")
     val test = File(file, "src/test/kotlin/com/$project/$role/")
     if (!src.mkdirs()) {
-        System.out.println("Can't create source direcotry $src")
+        System.out.println("Can't create source directory $src")
         System.exit(-4)
     }
-    println("Creating module test direcotry")
+    println("Creating module test directory")
     if (!test.mkdirs()) {
         System.out.println("Can't create test directory $test")
     }
@@ -185,7 +185,7 @@ fun getNextNum(): Int {
 fun getNum() = File("./num.tmp").readText().toInt()
 
 fun makeWebModule(role: String, project: String) {
-    val webDirectory = makeWebDirecotry(role, project)
+    val webDirectory = makeWebDirectory(role, project)
     makeWebProperties(role)
     makeRoleController(role, project, webDirectory)
     makeWebGradleContent(role, project)
@@ -194,13 +194,13 @@ fun makeWebModule(role: String, project: String) {
     addWebModuleToSettings(role)
 }
 
-fun makeWebDirecotry(role: String, project: String): File {
+fun makeWebDirectory(role: String, project: String): File {
     val webDirectory = File("./web-$role/src/main/kotlin/com/$project/web/controllers/")
     if (webDirectory.exists()) {
         println("Web directory $webDirectory already exists")
         System.exit(-8)
     }
-    println("Making web direcotry $webDirectory")
+    println("Making web directory $webDirectory")
     if (!webDirectory.mkdirs()) {
         println("Can't create web directory $webDirectory")
         System.exit(-6)
